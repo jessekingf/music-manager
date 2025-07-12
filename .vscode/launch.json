@@ -6,7 +6,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/Example/bin/Debug/net9.0/linux-x64/Example",
+      "program": "${workspaceFolder}/src/MusicCleaner/bin/Debug/net9.0/linux-x64/MusicCleaner",
       "args": [],
       "cwd": "${workspaceFolder}/src",
       "stopAtEntry": false

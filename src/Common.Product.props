@@ -1,6 +1,6 @@
 ﻿<Project>
   <PropertyGroup>
-    <Product>Example Solution</Product>
+    <Product>MusicCleaner</Product>
     <Authors>Jesse King</Authors>
     <Copyright>Copyright (c) Jesse King</Copyright>
   </PropertyGroup>

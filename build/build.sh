@@ -2,10 +2,10 @@
 set -e
 
 # Build parameters
-appName=Example
+appName=MusicCleaner
 src=../src
-sln=$src/Example.sln
-mainProj=$src/Example/Example.csproj
+sln=$src/MusicCleaner.sln
+mainProj=$src/MusicCleaner/MusicCleaner.csproj
 
 dist=../dist
 publishDir=$dist/Publish

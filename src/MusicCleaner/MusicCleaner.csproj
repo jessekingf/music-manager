@@ -6,8 +6,4 @@
     <PublishReadyToRun>false</PublishReadyToRun>
     <SelfContained>true</SelfContained>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Example.Library\Example.Library.csproj" />
-  </ItemGroup>
 </Project>
