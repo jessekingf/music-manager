@@ -1,8 +1,8 @@
 ﻿namespace MusicCleaner;
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using MusicCleaner.Commands;
+using MusicCleaner.Exceptions;
 
 internal class Program
 {
@@ -10,7 +10,20 @@ internal class Program
     {
         using IHost host = Startup.CreateHost(args);
 
-        ILogger<Program> logger = host.Services.GetRequiredService<ILogger<Program>>();
-        logger.LogInformation("Music Cleaner");
+        try
+        {
+            CommandParser commandParser = new(host);
+            ICommand command = commandParser.Parse(args);
+
+            command.Execute();
+        }
+        catch (InvalidOptionException ex)
+        {
+            Console.Error.WriteLine(ex.Message);
+            new HelpCommand().Execute();
+
+            Environment.ExitCode = 1;
+            return;
+        }
     }
 }

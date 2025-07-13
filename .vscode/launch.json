@@ -7,7 +7,9 @@
       "request": "launch",
       "preLaunchTask": "build",
       "program": "${workspaceFolder}/src/MusicCleaner/bin/Debug/net9.0/linux-x64/MusicCleaner",
-      "args": [],
+      "args": [
+        "%HOME%/Music/"
+      ],
       "cwd": "${workspaceFolder}/src",
       "stopAtEntry": false
     }

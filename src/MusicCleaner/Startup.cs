@@ -1,10 +1,13 @@
 namespace MusicCleaner;
 
+using System.IO.Abstractions;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MusicCleaner.Commands;
+using MusicCleaner.Core;
 
 internal static class Startup
 {
@@ -30,16 +33,10 @@ internal static class Startup
             .Build();
     }
 
-#pragma warning disable IDE0060 // Remove unused parameter
-    private static void ConfigureServices(IServiceCollection services)
-#pragma warning restore IDE0060 // Remove unused parameter
-    {
-    }
-
     private static Stream LoadAppSettings()
     {
-        Assembly assembly = typeof(Program).Assembly;
-        Stream? appSettingsSteam = assembly.GetManifestResourceStream("MusicCleaner.appsettings.json");
+        Assembly? assembly = Assembly.GetEntryAssembly();
+        Stream? appSettingsSteam = assembly?.GetManifestResourceStream("MusicCleaner.appsettings.json");
 
         if (appSettingsSteam == null)
         {
@@ -47,5 +44,25 @@ internal static class Startup
         }
 
         return appSettingsSteam;
+    }
+
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddTransient<IFileSystem, FileSystem>();
+
+        AddCommands(services);
+        AddMusicProcessor(services);
+    }
+
+    private static void AddCommands(IServiceCollection services)
+    {
+        services.AddTransient<CleanMusicCommand>();
+        services.AddTransient<HelpCommand>();
+        services.AddTransient<VersionCommand>();
+    }
+
+    private static void AddMusicProcessor(IServiceCollection services)
+    {
+        services.AddTransient<MusicProcessor>();
     }
 }
