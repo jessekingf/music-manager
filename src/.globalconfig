@@ -23,6 +23,9 @@ dotnet_diagnostic.CA1724.severity = suggestion
 # CA1822: Mark members as static
 dotnet_diagnostic.CA1822.severity = none
 
+# CA1848: Use the LoggerMessage delegates
+dotnet_diagnostic.CA1848.severity = none
+
 # CA1863: Use 'CompositeFormat'
 dotnet_diagnostic.CA1863.severity = suggestion
 
