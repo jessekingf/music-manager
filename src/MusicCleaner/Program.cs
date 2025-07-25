@@ -1,4 +1,4 @@
-﻿namespace MusicCleaner;
+namespace MusicCleaner;
 
 using Microsoft.Extensions.Hosting;
 using MusicCleaner.Commands;

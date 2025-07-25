@@ -1,4 +1,4 @@
-﻿namespace MusicCleaner.Core.Files;
+namespace MusicCleaner.Core.Files;
 
 using TagLib;
 

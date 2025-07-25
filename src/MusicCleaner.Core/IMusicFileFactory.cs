@@ -1,4 +1,4 @@
-﻿namespace MusicCleaner.Core;
+namespace MusicCleaner.Core;
 
 public interface IMusicFileFactory
 {

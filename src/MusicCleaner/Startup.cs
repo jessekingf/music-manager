@@ -1,4 +1,4 @@
-﻿namespace MusicCleaner;
+namespace MusicCleaner;
 
 using System.IO.Abstractions;
 using System.Reflection;

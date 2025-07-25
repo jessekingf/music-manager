@@ -1,4 +1,4 @@
-﻿namespace MusicCleaner.Core;
+namespace MusicCleaner.Core;
 
 using System.Globalization;
 using System.IO.Abstractions;

@@ -1,4 +1,4 @@
-﻿namespace MusicCleaner.Exceptions;
+namespace MusicCleaner.Exceptions;
 
 internal class InvalidOptionException : Exception
 {

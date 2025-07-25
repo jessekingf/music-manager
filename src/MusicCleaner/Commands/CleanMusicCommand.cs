@@ -1,4 +1,4 @@
-﻿namespace MusicCleaner.Commands;
+namespace MusicCleaner.Commands;
 
 using MusicCleaner.Core;
 
