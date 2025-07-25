@@ -1,4 +1,4 @@
-namespace MusicCleaner;
+﻿namespace MusicCleaner;
 
 using System.IO.Abstractions;
 using System.Reflection;
@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MusicCleaner.Commands;
 using MusicCleaner.Core;
+using MusicCleaner.Core.Processors;
 
 internal static class Startup
 {
@@ -48,10 +49,10 @@ internal static class Startup
 
     private static void ConfigureServices(IServiceCollection services)
     {
-        services.AddTransient<IFileSystem, FileSystem>();
-
         AddCommands(services);
         AddMusicProcessor(services);
+
+        services.AddTransient<IFileSystem, FileSystem>();
     }
 
     private static void AddCommands(IServiceCollection services)
@@ -63,6 +64,14 @@ internal static class Startup
 
     private static void AddMusicProcessor(IServiceCollection services)
     {
+        AddMusicProcessors(services);
+
         services.AddTransient<MusicProcessor>();
+        services.AddTransient<IMusicFileFactory, MusicFileFactory>();
+    }
+
+    private static void AddMusicProcessors(IServiceCollection services)
+    {
+        services.AddTransient<IMusicFileProcessor, MusicTagProcessor>();
     }
 }

@@ -1,0 +1,101 @@
+﻿namespace MusicCleaner.Core.Files;
+
+using TagLib;
+
+public class TagLibFile : IMusicFile
+{
+    private readonly File file;
+    private bool isDisposed;
+
+    public TagLibFile(string path)
+    {
+        this.file = File.Create(path);
+
+        Tag tag = this.file.Tag;
+        this.Artist = string.Join(", ", tag.Performers);
+        this.AlbumArtist = string.Join(", ", tag.AlbumArtists);
+        this.Title = tag.Title;
+        this.Track = tag.Track;
+        this.Year = tag.Year;
+        this.Comment = tag.Comment;
+    }
+
+    public string Path
+    {
+        get
+        {
+            return this.file.Name;
+        }
+    }
+
+    public string? Artist
+    {
+        get;
+        set;
+    }
+
+    public string? AlbumArtist
+    {
+        get;
+        set;
+    }
+
+    public string? Title
+    {
+        get;
+        set;
+    }
+
+    public uint? Track
+    {
+        get;
+        set;
+    }
+
+    public uint? Year
+    {
+        get;
+        set;
+    }
+
+    public string? Comment
+    {
+        get;
+        set;
+    }
+
+    public void Save()
+    {
+        Tag tag = this.file.Tag;
+
+        tag.Performers = [this.Artist ?? string.Empty];
+        tag.AlbumArtists = [this.AlbumArtist ?? string.Empty];
+        tag.Title = this.Title ?? string.Empty;
+        tag.Track = this.Track ?? 0;
+        tag.Year = this.Year ?? 0;
+        tag.Comment = this.Comment ?? string.Empty;
+
+        this.file.Save();
+    }
+
+    public void Dispose()
+    {
+        this.Dispose(isDisposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool isDisposing)
+    {
+        if (this.isDisposed)
+        {
+            return;
+        }
+
+        if (isDisposing)
+        {
+            this.file.Dispose();
+        }
+
+        this.isDisposed = true;
+    }
+}
