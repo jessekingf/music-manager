@@ -1,19 +1,11 @@
-# Music Cleaner
+# Music Manager
 
-A utility to clean up music file tags.
-
-Supported file types:
-
-- MP3
-
-Tag clean up:
-
-- Album artists
+A utility to help manager and organize music files.
 
 ## Usage
 
 ```shell
-MusicCleaner [DIR]
+MusicManager [DIR]
 ```
 
 ### Argument
@@ -30,7 +22,7 @@ MusicCleaner [DIR]
 ## Install
 
 1. Install the [.NET 9.0 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/9.0).
-2. Download the latest [release](https://github.com/jessekingf/music-cleaner/releases).
+2. Download the latest [release](https://github.com/jessekingf/music-manager/releases).
 
 ### Directory Structure
 

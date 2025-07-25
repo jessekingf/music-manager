@@ -1,6 +1,6 @@
-namespace MusicCleaner.Commands;
+namespace MusicManager.Commands;
 
-using MusicCleaner.Core;
+using MusicManager.Core;
 
 internal class CleanMusicCommand : ICommand
 {

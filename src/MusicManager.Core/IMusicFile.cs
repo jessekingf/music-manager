@@ -1,4 +1,4 @@
-namespace MusicCleaner.Core;
+namespace MusicManager.Core;
 
 public interface IMusicFile : IDisposable
 {

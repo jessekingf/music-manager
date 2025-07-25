@@ -1,4 +1,4 @@
-namespace MusicCleaner;
+namespace MusicManager;
 
 using System.IO.Abstractions;
 using System.Reflection;
@@ -6,9 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MusicCleaner.Commands;
-using MusicCleaner.Core;
-using MusicCleaner.Core.Processors;
+using MusicManager.Commands;
+using MusicManager.Core;
+using MusicManager.Core.Processors;
 
 internal static class Startup
 {
@@ -37,7 +37,7 @@ internal static class Startup
     private static Stream LoadAppSettings()
     {
         Assembly? assembly = Assembly.GetEntryAssembly();
-        Stream? appSettingsSteam = assembly?.GetManifestResourceStream("MusicCleaner.appsettings.json");
+        Stream? appSettingsSteam = assembly?.GetManifestResourceStream("MusicManager.appsettings.json");
 
         if (appSettingsSteam == null)
         {

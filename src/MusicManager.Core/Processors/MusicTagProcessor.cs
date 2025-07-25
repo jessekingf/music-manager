@@ -1,4 +1,4 @@
-namespace MusicCleaner.Core.Processors;
+namespace MusicManager.Core.Processors;
 
 using System.IO.Abstractions;
 using Microsoft.Extensions.Logging;

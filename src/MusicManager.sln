@@ -23,9 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{C5ADD515-5
 		..\docs\Setup.md = ..\docs\Setup.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCleaner", "MusicCleaner\MusicCleaner.csproj", "{E2532360-D17E-4CA5-B500-0A0AD8DD1B23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicManager", "MusicManager\MusicManager.csproj", "{E2532360-D17E-4CA5-B500-0A0AD8DD1B23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCleaner.Core", "MusicCleaner.Core\MusicCleaner.Core.csproj", "{8B72BE48-5C69-493C-A088-263FF5DAE12B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicManager.Core", "MusicManager.Core\MusicManager.Core.csproj", "{8B72BE48-5C69-493C-A088-263FF5DAE12B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

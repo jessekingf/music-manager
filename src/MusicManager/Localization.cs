@@ -1,4 +1,4 @@
-namespace MusicCleaner;
+namespace MusicManager;
 
 using System.Globalization;
 using System.Resources;
@@ -6,7 +6,7 @@ using System.Resources;
 internal static class Localization
 {
     private static readonly ResourceManager ResourceManager =
-        new("MusicCleaner.Properties.Resources", typeof(Localization).Assembly);
+        new("MusicManager.Properties.Resources", typeof(Localization).Assembly);
 
     public static CultureInfo CurrentCulture
     {

@@ -1,8 +1,8 @@
-namespace MusicCleaner;
+namespace MusicManager;
 
 using Microsoft.Extensions.Hosting;
-using MusicCleaner.Commands;
-using MusicCleaner.Exceptions;
+using MusicManager.Commands;
+using MusicManager.Exceptions;
 
 internal class Program
 {

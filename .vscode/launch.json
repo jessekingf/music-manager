@@ -6,7 +6,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/src/MusicCleaner/bin/Debug/net9.0/MusicCleaner",
+      "program": "${workspaceFolder}/src/MusicManager/bin/Debug/net9.0/MusicManager",
       "args": [
         "%HOME%/Music/"
       ],

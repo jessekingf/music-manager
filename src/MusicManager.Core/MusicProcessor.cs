@@ -1,4 +1,4 @@
-namespace MusicCleaner.Core;
+namespace MusicManager.Core;
 
 using System.Collections.Generic;
 using System.IO.Abstractions;

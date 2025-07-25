@@ -1,8 +1,8 @@
-namespace MusicCleaner.Core;
+namespace MusicManager.Core;
 
 using System.Globalization;
 using System.IO.Abstractions;
-using global::MusicCleaner.Core.Files;
+using global::MusicManager.Core.Files;
 
 public class MusicFileFactory : IMusicFileFactory
 {

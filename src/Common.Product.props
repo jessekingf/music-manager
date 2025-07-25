@@ -1,6 +1,6 @@
 ﻿<Project>
   <PropertyGroup>
-    <Product>MusicCleaner</Product>
+    <Product>MusicManager</Product>
     <Authors>Jesse King</Authors>
     <Copyright>Copyright (c) Jesse King</Copyright>
   </PropertyGroup>

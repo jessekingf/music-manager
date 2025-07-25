@@ -1,4 +1,4 @@
-namespace MusicCleaner.Commands;
+namespace MusicManager.Commands;
 
 internal interface ICommand
 {

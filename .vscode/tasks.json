@@ -9,7 +9,7 @@
         "build",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary",
-        "${workspaceFolder}/src/MusicCleaner.sln"
+        "${workspaceFolder}/src/MusicManager.sln"
       ],
       "group": {
         "kind": "build",
