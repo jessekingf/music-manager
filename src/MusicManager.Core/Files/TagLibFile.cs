@@ -18,6 +18,7 @@ public class TagLibFile : IMusicFile
         this.Track = tag.Track;
         this.Year = tag.Year;
         this.Comment = tag.Comment;
+        this.Genre = string.Join(", ", tag.Genres);
     }
 
     public string Path
@@ -64,6 +65,12 @@ public class TagLibFile : IMusicFile
         set;
     }
 
+    public string? Genre
+    {
+        get;
+        set;
+    }
+
     public void Save()
     {
         Tag tag = this.file.Tag;
@@ -74,6 +81,7 @@ public class TagLibFile : IMusicFile
         tag.Track = this.Track ?? 0;
         tag.Year = this.Year ?? 0;
         tag.Comment = this.Comment ?? string.Empty;
+        tag.Genres = [this.Genre ?? string.Empty];
 
         this.file.Save();
     }

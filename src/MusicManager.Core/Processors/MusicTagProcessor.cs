@@ -24,8 +24,16 @@ public class MusicTagProcessor : IMusicFileProcessor
             return filePath;
         }
 
+        this.logger.LogInformation("Processing tags: {FilePath}", filePath);
+
         musicFile.AlbumArtist = artistName;
         musicFile.Comment = null;
+
+        if (!string.IsNullOrEmpty(musicFile.Genre)
+            && musicFile.Genre.Contains("unknown", StringComparison.CurrentCultureIgnoreCase))
+        {
+            musicFile.Genre = null;
+        }
 
         musicFile.Save();
 

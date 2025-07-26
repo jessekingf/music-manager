@@ -43,5 +43,11 @@ public interface IMusicFile : IDisposable
         set;
     }
 
+    public string? Genre
+    {
+        get;
+        set;
+    }
+
     void Save();
 }
