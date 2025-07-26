@@ -2,6 +2,12 @@
 
 A utility to help manager and organize music files.
 
+## Features
+
+1. Fixes MP3 tags
+2. ???
+3. Profit
+
 ## Usage
 
 ```shell

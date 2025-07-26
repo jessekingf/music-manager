@@ -27,7 +27,11 @@ public class MusicProcessor
             return;
         }
 
-        string[] artistDirs = this.fileSystem.Directory.GetDirectories(musicPath);
+        string[] artistDirs = this.fileSystem.Directory
+            .GetDirectories(musicPath)
+            .OrderBy(dir => dir, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
         foreach (string artistPath in artistDirs)
         {
             this.ProcessArtist(artistPath);
@@ -44,7 +48,11 @@ public class MusicProcessor
 
         this.logger.LogInformation("Processing artist {ArtistName}: {ArtistPath}", artistName, artistPath);
 
-        string[] albumDirs = this.fileSystem.Directory.GetDirectories(artistPath);
+        string[] albumDirs = this.fileSystem.Directory
+            .GetDirectories(artistPath)
+            .OrderBy(dir => dir, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
         foreach (string albumPath in albumDirs)
         {
             this.ProcessAlbum(artistName, albumPath);
@@ -61,7 +69,10 @@ public class MusicProcessor
 
         this.logger.LogInformation("Processing album {ArtistName} - {AlbumName}: {AlbumPath}", artistName, albumName, albumPath);
 
-        string[] musicFiles = this.fileSystem.Directory.GetFiles(albumPath);
+        string[] musicFiles = this.fileSystem.Directory
+            .GetFiles(albumPath)
+            .OrderBy(file => file, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
 
         foreach (string trackPath in musicFiles)
         {
