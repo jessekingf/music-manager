@@ -57,7 +57,7 @@ internal static class Startup
 
     private static void AddCommands(IServiceCollection services)
     {
-        services.AddTransient<CleanMusicCommand>();
+        services.AddTransient<ProcessMusicCommand>();
         services.AddTransient<HelpCommand>();
         services.AddTransient<VersionCommand>();
     }

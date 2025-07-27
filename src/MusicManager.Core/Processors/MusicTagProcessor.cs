@@ -2,6 +2,7 @@ namespace MusicManager.Core.Processors;
 
 using System.IO.Abstractions;
 using Microsoft.Extensions.Logging;
+using MusicManager.Core.Model;
 
 public class MusicTagProcessor : IMusicFileProcessor
 {
@@ -16,18 +17,22 @@ public class MusicTagProcessor : IMusicFileProcessor
         this.musicFileFactory = musicFileFactory;
     }
 
-    public string Process(string artistName, string albumName, string filePath)
+    public void Process(Artist artist, Album album, Track track)
     {
-        IMusicFile? musicFile = this.LoadFile(filePath);
+        ArgumentNullException.ThrowIfNull(artist);
+        ArgumentNullException.ThrowIfNull(album);
+        ArgumentNullException.ThrowIfNull(track);
+
+        IMusicFile? musicFile = this.musicFileFactory.Load(track.Path);
         if (musicFile == null)
         {
-            return filePath;
+            this.logger.LogWarning("File not supported: {TrackPath}", track.Path);
+            return;
         }
 
-        this.logger.LogInformation("Processing tags: {FilePath}", filePath);
+        this.logger.LogInformation("Processing tags: {TrackName}", track.Name);
 
-        musicFile.AlbumArtist = artistName;
-        musicFile.Comment = null;
+        musicFile.AlbumArtist = artist.Name;
 
         if (!string.IsNullOrEmpty(musicFile.Genre)
             && musicFile.Genre.Contains("unknown", StringComparison.CurrentCultureIgnoreCase))
@@ -35,21 +40,8 @@ public class MusicTagProcessor : IMusicFileProcessor
             musicFile.Genre = null;
         }
 
+        musicFile.Comment = null;
+
         musicFile.Save();
-
-        return filePath;
-    }
-
-    private IMusicFile? LoadFile(string filePath)
-    {
-        try
-        {
-            return this.musicFileFactory.Load(filePath);
-        }
-        catch (InvalidOperationException)
-        {
-            this.logger.LogWarning("File not supported: {FilePath}", filePath);
-            return null;
-        }
     }
 }

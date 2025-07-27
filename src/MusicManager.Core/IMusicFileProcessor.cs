@@ -1,6 +1,8 @@
 namespace MusicManager.Core;
 
+using MusicManager.Core.Model;
+
 public interface IMusicFileProcessor
 {
-    string Process(string artistName, string albumName, string filePath);
+    void Process(Artist artist, Album album, Track track);
 }

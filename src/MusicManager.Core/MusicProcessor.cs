@@ -2,22 +2,29 @@ namespace MusicManager.Core;
 
 using System.Collections.Generic;
 using System.IO.Abstractions;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using MusicManager.Core.Model;
 
 public class MusicProcessor
 {
     private readonly ILogger<MusicProcessor> logger;
     private readonly IFileSystem fileSystem;
     private readonly IEnumerable<IMusicFileProcessor> fileProcessors;
+    private readonly Regex albumPattern = new(@"^\((?<year>\d{4})\)\s*(?<album>.+)$", RegexOptions.Compiled);
+    private readonly Regex trackPattern = new(@"^(?<trackNumber>\d+)\s*(?:-\s*)?(?<trackName>.+)$", RegexOptions.Compiled);
 
-    public MusicProcessor(ILogger<MusicProcessor> logger, IFileSystem fileSystem, IEnumerable<IMusicFileProcessor> fileProcessors)
+    public MusicProcessor(
+        ILogger<MusicProcessor> logger,
+        IFileSystem fileSystem,
+        IEnumerable<IMusicFileProcessor> fileProcessors)
     {
         this.logger = logger;
         this.fileSystem = fileSystem;
         this.fileProcessors = fileProcessors;
     }
 
-    public void Clean(string musicPath)
+    public void Process(string musicPath)
     {
         this.logger.LogInformation("Processing music directory: {MusicDir}", musicPath);
 
@@ -40,55 +47,126 @@ public class MusicProcessor
 
     private void ProcessArtist(string artistPath)
     {
-        string? artistName = this.fileSystem.Path.GetFileName(artistPath);
-        if (string.IsNullOrWhiteSpace(artistName))
+        Artist? artist = this.GetArtist(artistPath);
+        if (artist == null)
         {
             return;
         }
 
-        this.logger.LogInformation("Processing artist {ArtistName}: {ArtistPath}", artistName, artistPath);
+        this.logger.LogInformation("Processing artist {ArtistName}: {ArtistPath}", artist.Name, artist.Path);
 
         string[] albumDirs = this.fileSystem.Directory
-            .GetDirectories(artistPath)
+            .GetDirectories(artist.Path)
             .OrderBy(dir => dir, StringComparer.OrdinalIgnoreCase)
             .ToArray();
 
         foreach (string albumPath in albumDirs)
         {
-            this.ProcessAlbum(artistName, albumPath);
+            this.ProcessAlbum(artist, albumPath);
         }
     }
 
-    private void ProcessAlbum(string artistName, string albumPath)
+    private void ProcessAlbum(Artist artist, string albumPath)
     {
-        string? albumName = this.fileSystem.Path.GetFileName(albumPath);
-        if (string.IsNullOrWhiteSpace(albumName))
+        Album? album = this.GetAlbum(albumPath);
+        if (album == null)
         {
             return;
         }
 
-        this.logger.LogInformation("Processing album {ArtistName} - {AlbumName}: {AlbumPath}", artistName, albumName, albumPath);
+        this.logger.LogInformation("Processing album {ArtistName} - {AlbumName}: {AlbumPath}", artist.Name, album.Name, album.Path);
 
         string[] musicFiles = this.fileSystem.Directory
-            .GetFiles(albumPath)
+            .GetFiles(album.Path)
             .OrderBy(file => file, StringComparer.OrdinalIgnoreCase)
             .ToArray();
 
         foreach (string trackPath in musicFiles)
         {
-            this.ProcessFile(artistName, albumName, trackPath);
+            this.ProcessFile(artist, album, trackPath);
         }
     }
 
-    private void ProcessFile(string artistName, string albumName, string filePath)
+    private void ProcessFile(Artist artist, Album album, string filePath)
     {
-        string fileName = this.fileSystem.Path.GetFileName(filePath);
+        Track? track = this.GetTrack(filePath);
+        if (track == null)
+        {
+            return;
+        }
 
-        this.logger.LogInformation("Processing track {ArtistName} - {AlbumName} - {TrackName} : {AlbumPath}", artistName, albumName, fileName, filePath);
+        this.logger.LogInformation("Processing track {ArtistName} - {AlbumName} - {TrackName} : {AlbumPath}", artist.Name, album.Name, track.Name, track.Path);
 
         foreach (IMusicFileProcessor fileProcessor in this.fileProcessors)
         {
-            filePath = fileProcessor.Process(artistName, albumName, filePath);
+            fileProcessor.Process(artist, album, track);
         }
+    }
+
+    private Artist? GetArtist(string artistPath)
+    {
+        string? artistName = this.fileSystem.Path.GetFileName(artistPath);
+        if (string.IsNullOrWhiteSpace(artistName))
+        {
+            return null;
+        }
+
+        return new Artist()
+        {
+            Path = artistPath,
+            Name = artistName,
+        };
+    }
+
+    private Album? GetAlbum(string albumPath)
+    {
+        string? albumDir = this.fileSystem.Path.GetFileName(albumPath);
+        if (string.IsNullOrWhiteSpace(albumDir))
+        {
+            return null;
+        }
+
+        Match albumMatch = this.albumPattern.Match(albumDir);
+        if (!albumMatch.Success)
+        {
+            return new Album()
+            {
+                Path = albumPath,
+                Name = albumDir,
+            };
+        }
+
+        return new Album()
+        {
+            Path = albumPath,
+            Name = albumMatch.Groups["album"].Value,
+            Year = int.Parse(albumMatch.Groups["year"].Value),
+        };
+    }
+
+    private Track? GetTrack(string filePath)
+    {
+        string? fileName = this.fileSystem.Path.GetFileNameWithoutExtension(filePath);
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            return null;
+        }
+
+        Match trackMatch = this.trackPattern.Match(fileName);
+        if (!trackMatch.Success)
+        {
+            return new Track()
+            {
+                Path = filePath,
+                Name = fileName,
+            };
+        }
+
+        return new Track()
+        {
+            Path = filePath,
+            Name = trackMatch.Groups["trackName"].Value,
+            Number = int.Parse(trackMatch.Groups["trackNumber"].Value),
+        };
     }
 }

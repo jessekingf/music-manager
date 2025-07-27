@@ -2,11 +2,11 @@ namespace MusicManager.Commands;
 
 using MusicManager.Core;
 
-internal class CleanMusicCommand : ICommand
+internal class ProcessMusicCommand : ICommand
 {
     private readonly MusicProcessor musicProcessor;
 
-    public CleanMusicCommand(MusicProcessor musicProcessor)
+    public ProcessMusicCommand(MusicProcessor musicProcessor)
     {
         this.musicProcessor = musicProcessor;
     }
@@ -24,6 +24,6 @@ internal class CleanMusicCommand : ICommand
             throw new InvalidOperationException("The music path was not set.");
         }
 
-        this.musicProcessor.Clean(this.MusicPath);
+        this.musicProcessor.Process(this.MusicPath);
     }
 }

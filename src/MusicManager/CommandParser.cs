@@ -1,5 +1,6 @@
 namespace MusicManager;
 
+using System.Globalization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MusicManager.Commands;
@@ -27,8 +28,7 @@ internal class CommandParser
 
             if (arg.StartsWith('-'))
             {
-#pragma warning disable CA1308 // Normalize strings to uppercase
-                switch (arg.ToLowerInvariant())
+                switch (arg.ToLower(CultureInfo.CurrentCulture))
                 {
                     case "--help":
                     case "-h":
@@ -39,7 +39,6 @@ internal class CommandParser
                     default:
                         throw new InvalidOptionException(Localization.Get("ErrorInvalidOption", arg));
                 }
-#pragma warning restore CA1308 // Normalize strings to uppercase
             }
 
             nonSwitchArgs.Add(arg);
@@ -55,7 +54,7 @@ internal class CommandParser
             throw new InvalidOptionException(Localization.Get("ErrorTooManyArgs"));
         }
 
-        CleanMusicCommand cleanMusicCommand = this.host.Services.GetRequiredService<CleanMusicCommand>();
+        ProcessMusicCommand cleanMusicCommand = this.host.Services.GetRequiredService<ProcessMusicCommand>();
         cleanMusicCommand.MusicPath = Environment.ExpandEnvironmentVariables(nonSwitchArgs[0]);
 
         return cleanMusicCommand;
