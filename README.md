@@ -33,12 +33,18 @@ MusicManager [DIR]
 ### Directory Structure
 
 ```text
-- Artist 1
-  - (year) Album 1
-  - (year) Album 2
+- Artist 1/
+  - (year) Album 1/
+    - 01 Track 1.mp3
+    - 02 Track 2.mp3
+  - (year) Album 2/
   - ...
-- Artist 2
-  - (year) Album 1
-  - ...
+- Artist 2/
+  - (year) Album 1/
+  - Disc 1/
+    - 01 Track 1.mp3
+    - 02 Track 2.mp3
+  - Disc 2/
+    - 01 Track 1.mp3
 - ...
 ```

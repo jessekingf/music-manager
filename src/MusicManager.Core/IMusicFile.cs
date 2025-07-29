@@ -31,6 +31,12 @@ public interface IMusicFile : IDisposable
         set;
     }
 
+    public uint? Disc
+    {
+        get;
+        set;
+    }
+
     public uint? Year
     {
         get;

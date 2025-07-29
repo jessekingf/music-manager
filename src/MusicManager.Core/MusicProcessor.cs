@@ -76,20 +76,32 @@ public class MusicProcessor
 
         this.logger.LogInformation("Processing album {ArtistName} - {AlbumName}: {AlbumPath}", artist.Name, album.Name, album.Path);
 
-        string[] musicFiles = this.fileSystem.Directory
-            .GetFiles(album.Path)
-            .OrderBy(file => file, StringComparer.OrdinalIgnoreCase)
-            .ToArray();
+        List<string> discDirs = this.fileSystem.Directory
+            .GetDirectories(album.Path)
+            .OrderBy(dir => dir, StringComparer.OrdinalIgnoreCase)
+            .ToList();
 
-        foreach (string trackPath in musicFiles)
+        discDirs = discDirs.Prepend(albumPath).ToList();
+
+        for (uint disc = 0; disc < discDirs.Count; ++disc)
         {
-            this.ProcessFile(artist, album, trackPath);
+            string discDir = discDirs[(int)disc];
+
+            string[] musicFiles = this.fileSystem.Directory
+                .GetFiles(discDir)
+                .OrderBy(file => file, StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+
+            foreach (string trackPath in musicFiles)
+            {
+                this.ProcessFile(artist, album, trackPath, disc > 0 ? disc : null);
+            }
         }
     }
 
-    private void ProcessFile(Artist artist, Album album, string filePath)
+    private void ProcessFile(Artist artist, Album album, string filePath, uint? discNumber = null)
     {
-        Track? track = this.GetTrack(filePath);
+        Track? track = this.GetTrack(filePath, discNumber);
         if (track == null)
         {
             return;
@@ -140,11 +152,11 @@ public class MusicProcessor
         {
             Path = albumPath,
             Name = albumMatch.Groups["album"].Value,
-            Year = int.Parse(albumMatch.Groups["year"].Value),
+            Year = uint.Parse(albumMatch.Groups["year"].Value),
         };
     }
 
-    private Track? GetTrack(string filePath)
+    private Track? GetTrack(string filePath, uint? discNumber = null)
     {
         string? fileName = this.fileSystem.Path.GetFileNameWithoutExtension(filePath);
         if (string.IsNullOrWhiteSpace(fileName))
@@ -159,6 +171,7 @@ public class MusicProcessor
             {
                 Path = filePath,
                 Name = fileName,
+                DiscNumber = discNumber,
             };
         }
 
@@ -166,7 +179,8 @@ public class MusicProcessor
         {
             Path = filePath,
             Name = trackMatch.Groups["trackName"].Value,
-            Number = int.Parse(trackMatch.Groups["trackNumber"].Value),
+            TrackNumber = uint.Parse(trackMatch.Groups["trackNumber"].Value),
+            DiscNumber = discNumber,
         };
     }
 }

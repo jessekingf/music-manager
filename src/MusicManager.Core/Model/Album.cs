@@ -14,7 +14,7 @@ public record Album
         init;
     }
 
-    public int? Year
+    public uint? Year
     {
         get;
         init;

@@ -15,8 +15,9 @@ public class TagLibFile : IMusicFile
         this.Artist = string.Join(", ", tag.Performers);
         this.AlbumArtist = string.Join(", ", tag.AlbumArtists);
         this.Title = tag.Title;
-        this.Track = tag.Track;
-        this.Year = tag.Year;
+        this.Track = tag.Track > 0 ? tag.Track : null;
+        this.Disc = tag.Disc > 0 ? tag.Disc : null;
+        this.Year = tag.Year > 0 ? tag.Year : null;
         this.Comment = tag.Comment;
         this.Genre = string.Join(", ", tag.Genres);
     }
@@ -53,6 +54,12 @@ public class TagLibFile : IMusicFile
         set;
     }
 
+    public uint? Disc
+    {
+        get;
+        set;
+    }
+
     public uint? Year
     {
         get;
@@ -79,6 +86,7 @@ public class TagLibFile : IMusicFile
         tag.AlbumArtists = [this.AlbumArtist ?? string.Empty];
         tag.Title = this.Title ?? string.Empty;
         tag.Track = this.Track ?? 0;
+        tag.Disc = this.Disc ?? 0;
         tag.Year = this.Year ?? 0;
         tag.Comment = this.Comment ?? string.Empty;
         tag.Genres = [this.Genre ?? string.Empty];
