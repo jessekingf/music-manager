@@ -14,13 +14,13 @@ public class Track
         init;
     }
 
-    public uint? TrackNumber
+    public uint? Number
     {
         get;
         init;
     }
 
-    public uint? DiscNumber
+    public uint? Disc
     {
         get;
         init;

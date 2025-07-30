@@ -32,15 +32,56 @@ public class MusicTagProcessor : IMusicFileProcessor
 
         this.logger.LogInformation("Processing tags: {TrackName}", track.Name);
 
-        musicFile.AlbumArtist = artist.Name;
+        if (string.IsNullOrEmpty(musicFile.Artist)
+            || musicFile.Artist.Contains("Unknown artist", StringComparison.CurrentCultureIgnoreCase))
+        {
+            musicFile.Artist = artist.Name;
+        }
+
+        if (musicFile.AlbumArtist != artist.Name)
+        {
+            musicFile.AlbumArtist = artist.Name;
+        }
+
+        if (string.IsNullOrEmpty(musicFile.Album)
+            || musicFile.Album.Contains("Unknown album", StringComparison.CurrentCultureIgnoreCase))
+        {
+            musicFile.Album = album.Name;
+        }
+
+        if ((musicFile.Year == null || musicFile.Year == 0)
+            && album.Year != null && album.Year > 0)
+        {
+            musicFile.Year = album.Year;
+        }
+
+        if (string.IsNullOrEmpty(musicFile.Title)
+            || musicFile.Title.Contains("Track 1", StringComparison.CurrentCultureIgnoreCase))
+        {
+            musicFile.Album = track.Name;
+        }
+
+        if ((musicFile.Track == null || musicFile.Track == 0)
+            && track.Number != null && track.Number > 0)
+        {
+            musicFile.Track = track.Number;
+        }
+
+        if (track.Disc > 0 && musicFile.Disc != track.Disc)
+        {
+            musicFile.Disc = track.Disc;
+        }
 
         if (!string.IsNullOrEmpty(musicFile.Genre)
-            && musicFile.Genre.Contains("unknown", StringComparison.CurrentCultureIgnoreCase))
+            && musicFile.Genre.Contains("Unknown", StringComparison.CurrentCultureIgnoreCase))
         {
             musicFile.Genre = null;
         }
 
-        musicFile.Comment = null;
+        if (!string.IsNullOrEmpty(musicFile.Comment))
+        {
+            musicFile.Comment = null;
+        }
 
         musicFile.Save();
     }

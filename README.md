@@ -4,9 +4,12 @@ A utility to help manager and organize music files.
 
 ## Features
 
-1. Fixes MP3 tags
-2. ???
-3. Profit
+Fixes MP3 tags:
+
+1. Sets blank tags (artist, album, track, etc.)
+2. Sets the album artist
+3. Fixes track and disc numbers
+4. Etc.
 
 ## Usage
 

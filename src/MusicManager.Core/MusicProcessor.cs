@@ -8,6 +8,7 @@ using MusicManager.Core.Model;
 
 public class MusicProcessor
 {
+    private static readonly string[] SupportedExtensions = [".mp3"];
     private readonly ILogger<MusicProcessor> logger;
     private readonly IFileSystem fileSystem;
     private readonly IEnumerable<IMusicFileProcessor> fileProcessors;
@@ -89,6 +90,7 @@ public class MusicProcessor
 
             string[] musicFiles = this.fileSystem.Directory
                 .GetFiles(discDir)
+                .Where(file => SupportedExtensions.Contains(Path.GetExtension(file), StringComparer.OrdinalIgnoreCase))
                 .OrderBy(file => file, StringComparer.OrdinalIgnoreCase)
                 .ToArray();
 
@@ -171,7 +173,7 @@ public class MusicProcessor
             {
                 Path = filePath,
                 Name = fileName,
-                DiscNumber = discNumber,
+                Disc = discNumber,
             };
         }
 
@@ -179,8 +181,8 @@ public class MusicProcessor
         {
             Path = filePath,
             Name = trackMatch.Groups["trackName"].Value,
-            TrackNumber = uint.Parse(trackMatch.Groups["trackNumber"].Value),
-            DiscNumber = discNumber,
+            Number = uint.Parse(trackMatch.Groups["trackNumber"].Value),
+            Disc = discNumber,
         };
     }
 }

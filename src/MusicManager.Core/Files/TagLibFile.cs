@@ -14,6 +14,7 @@ public class TagLibFile : IMusicFile
         Tag tag = this.file.Tag;
         this.Artist = string.Join(", ", tag.Performers);
         this.AlbumArtist = string.Join(", ", tag.AlbumArtists);
+        this.Album = tag.Album;
         this.Title = tag.Title;
         this.Track = tag.Track > 0 ? tag.Track : null;
         this.Disc = tag.Disc > 0 ? tag.Disc : null;
@@ -37,6 +38,12 @@ public class TagLibFile : IMusicFile
     }
 
     public string? AlbumArtist
+    {
+        get;
+        set;
+    }
+
+    public string? Album
     {
         get;
         set;
@@ -84,6 +91,7 @@ public class TagLibFile : IMusicFile
 
         tag.Performers = [this.Artist ?? string.Empty];
         tag.AlbumArtists = [this.AlbumArtist ?? string.Empty];
+        tag.Album = this.Album ?? string.Empty;
         tag.Title = this.Title ?? string.Empty;
         tag.Track = this.Track ?? 0;
         tag.Disc = this.Disc ?? 0;
