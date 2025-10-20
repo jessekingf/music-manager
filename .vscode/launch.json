@@ -8,7 +8,7 @@
       "preLaunchTask": "build",
       "program": "${workspaceFolder}/src/MusicManager/bin/Debug/net9.0/MusicManager",
       "args": [
-        "%HOME%/Music/"
+        "${env:USERPROFILE}/Music/"
       ],
       "cwd": "${workspaceFolder}/src",
       "stopAtEntry": false
